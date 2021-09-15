@@ -1,0 +1,67 @@
+{"properties": [
+  {
+    "name": "spring.jpa.hibernate.naming.strategy",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa.hibernate.naming.strategy'"
+  },
+  {
+    "name": "spring.jpa",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.jpa'"
+  },
+  {
+    "name": "spring.",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.'"
+  },
+  {
+    "name": "bezkoder.app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'bezkoder.app.jwtSecret'"
+  },
+  {
+    "name": "bezkoder.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'bezkoder.app.jwtExpirationMs'"
+  },
+  {
+    "name": "bezkoder.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'bezkoder.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtSecret'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  },
+  {
+    "name": "backend.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'backend.app.jwtExpirationMs'"
+  }
+]}
