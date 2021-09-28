@@ -37,8 +37,6 @@ public class ClasseController {
 						()->new  ResourceNotFoundException("Classe non trouve")
 						);
 		return ResponseEntity.ok(cl);
-				
-		
 	}
 	@PostMapping("/create")
 	public Classe createOne(@RequestBody Classe cl) {
