@@ -1,5 +1,9 @@
 package com.api.backendSchool.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +14,9 @@ import com.api.backendSchool.specification.EtudiantSpecification;
 import com.api.backendSchool.specification.EtudiantSpecificationsBuilder;
 import com.api.backendSchool.specification.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +42,7 @@ public class EtudiantController {
 		return etudiantRepository.getChampSelected();
 	}
 	@PostMapping("/fetch")
-	public List<Etudiant> getAgeAndPrenom(@RequestBody List<SearchCriteria> searchCriteria){
+	public ResponseEntity<?> getAgeAndPrenom(@RequestBody List<SearchCriteria> searchCriteria){
 		//return etudiantRepository.findAll(Specification.where(EtudiantSpecification.hasFirstName(prenom).and(EtudiantSpecification.hasFirstName(prenom))));
 		//System.out.println(searchCriteria);
 		EtudiantSpecificationsBuilder builder = new EtudiantSpecificationsBuilder();
@@ -44,7 +50,17 @@ public class EtudiantController {
 			builder.with(sc.getKey(),sc.getOperation(),sc.getValue());
 		}
 		Specification<Etudiant> spec = builder.build();
-		return etudiantRepository.findAll(spec);
+		Pageable paging = (Pageable) PageRequest.of(0,2);
+		Page<Etudiant> pageTuts = etudiantRepository.findAll(spec,paging);
+		List<Etudiant> etu = new ArrayList<Etudiant>();
+		etu = pageTuts.getContent();
+		Map<String, Object> response = new HashMap<>();
+		response.put("tutorials", etu);
+		response.put("currentPage", pageTuts.getNumber());
+		response.put("totalItems", pageTuts.getTotalElements());
+		response.put("totalPages", pageTuts.getTotalPages());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	@PostMapping("/search")
 	public List<Etudiant> searchEtudiant(@RequestBody SearchEtudiant search)

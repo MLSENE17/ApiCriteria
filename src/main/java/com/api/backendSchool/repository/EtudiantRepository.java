@@ -3,6 +3,8 @@ package com.api.backendSchool.repository;
 import java.util.List;
 
 import com.api.backendSchool.projection.EtudiantProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,5 @@ public interface EtudiantRepository extends JpaRepository<Etudiant, Long> ,JpaSp
 	@Query("Select e.nom as nom,e.prenom as prenom ,e.email as email," +
 			"e.signinDate as signinDate,e.prof as prof,e.age as age from Etudiant e")
 	List<EtudiantProjection> getChampSelected();
+	Page<Etudiant> findAll(Pageable pageable);
 }
