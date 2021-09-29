@@ -44,8 +44,9 @@ public class GenericSpecification<T> implements Specification<T> {
             return criteriaBuilder.between(
                     root.get(criteria.getKey()), localDate1,localDate2);
         }else if(criteria.getOperation().equalsIgnoreCase("join")){
+            String[] table = criteria.getKey().split("<>"); 
             return criteriaBuilder.equal(
-                    root.get(criteria.getKey()).get("nom"),criteria.getValue());//Integer.parseInt(criteria.getValue()));
+                    root.get(table[0]).get(table[1]),criteria.getValue());//Integer.parseInt(criteria.getValue()));
         }
        return null;
     }
