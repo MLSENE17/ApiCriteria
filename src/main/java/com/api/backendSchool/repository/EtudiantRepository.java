@@ -18,6 +18,6 @@ public interface EtudiantRepository extends JpaRepository<Etudiant, Long> ,JpaSp
 	List<Etudiant> findEtudiantsByKeyword(@Param("keyword") String keyword);
 	@Query("Select e.nom as nom,e.prenom as prenom ,e.email as email," +
 			"e.signinDate as signinDate,e.prof as prof,e.age as age from Etudiant e")
-	List<EtudiantProjection> getChampSelected();
+	List<Etudiant> getChampSelected();
 	Page<Etudiant> findAll(Pageable pageable);
 }

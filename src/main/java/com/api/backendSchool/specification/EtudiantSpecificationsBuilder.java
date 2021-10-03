@@ -6,24 +6,24 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-public class EtudiantSpecificationsBuilder {
+public class EtudiantSpecificationsBuilder<T> {
     private final List<SearchCriteria> params;
 
     public EtudiantSpecificationsBuilder() {
         this.params = new ArrayList<SearchCriteria>();
     }
 
-    public EtudiantSpecificationsBuilder with(String key,String operation,String values) {
+    public EtudiantSpecificationsBuilder with(String key,String operation,Object values) {
+
         this.params.add(new SearchCriteria(key,operation,values));
         return this;
     }
-    public Specification<Etudiant> build(){
+    public Specification<T> build(){
         if(this.params.size()==0){
             return null;
         }
         List<Specification> specs = params.stream()
-                .map(GenericSpecification<Etudiant>::new)
+                .map(GenericSpecification<T>::new)
                 .collect(Collectors.toList());
         Specification result = specs.get(0);
         for(int i=1;i<params.size();i++){

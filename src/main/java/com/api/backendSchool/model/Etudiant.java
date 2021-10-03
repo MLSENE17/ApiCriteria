@@ -19,8 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Table(name="etudiants")
 @Entity
-@Getter
-@Setter
 @Builder
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -45,4 +43,8 @@ public class Etudiant implements Serializable{
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Prof prof;
 	private int age;
+	@Column(nullable = true)
+	private boolean status;
+	@Enumerated(EnumType.STRING)
+	private Type type=Type.DISABLE;
 }

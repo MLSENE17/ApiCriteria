@@ -1,5 +1,6 @@
 package com.api.backendSchool.controller;
 
+import com.api.backendSchool.model.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,7 +11,6 @@ import java.util.Map;
 
 import com.api.backendSchool.projection.EtudiantProjection;
 import com.api.backendSchool.repository.EtudiantRepository;
-import com.api.backendSchool.specification.EtudiantSpecification;
 import com.api.backendSchool.specification.EtudiantSpecificationsBuilder;
 import com.api.backendSchool.specification.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,6 @@ import com.api.backendSchool.model.Etudiant;
 import com.api.backendSchool.model.SearchEtudiant;
 import com.api.backendSchool.service.EtudiantService;
 
-import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("etudiant")
@@ -37,22 +36,31 @@ public class EtudiantController {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
 	@GetMapping("/projection")
-	public List<EtudiantProjection> getProjection()
+	public List<Etudiant> getProjection()
 	{
 		return etudiantRepository.getChampSelected();
 	}
 	@PostMapping("/fetch")
 	public ResponseEntity<?> getAgeAndPrenom(@RequestBody List<SearchCriteria> searchCriteria){
-		//return etudiantRepository.findAll(Specification.where(EtudiantSpecification.hasFirstName(prenom).and(EtudiantSpecification.hasFirstName(prenom))));
-		//System.out.println(searchCriteria);
-		EtudiantSpecificationsBuilder builder = new EtudiantSpecificationsBuilder();
+		EtudiantSpecificationsBuilder<Etudiant> builder = new EtudiantSpecificationsBuilder();
+		Object tmp=null;
 		for(SearchCriteria sc:searchCriteria){
-			builder.with(sc.getKey(),sc.getOperation(),sc.getValue());
+			if(sc.getKey().equals("type")){
+				if (sc.getValue().equals("ACTIF")) {
+					tmp = Type.ACTIF;
+				} else if (sc.getValue().equals("DISABLE")) {
+					tmp = Type.DISABLE;
+				}
+			}
+			else{
+				tmp=sc.getValue();
+			}
+			builder.with(sc.getKey(),sc.getOperation(),tmp);
 		}
 		Specification<Etudiant> spec = builder.build();
-		Pageable paging = (Pageable) PageRequest.of(0,2);
+		Pageable paging = PageRequest.of(0,2);
 		Page<Etudiant> pageTuts = etudiantRepository.findAll(spec,paging);
-		List<Etudiant> etu = new ArrayList<Etudiant>();
+		List<Etudiant> etu;
 		etu = pageTuts.getContent();
 		Map<String, Object> response = new HashMap<>();
 		response.put("tutorials", etu);

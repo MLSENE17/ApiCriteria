@@ -9,9 +9,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@Getter()
-@Setter
-@Builder
 @Data
 @NoArgsConstructor @AllArgsConstructor
 public class SearchEtudiant implements Serializable{

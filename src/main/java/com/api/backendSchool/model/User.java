@@ -20,11 +20,11 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="users",
 	uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "email") 
 		})
+@Data
 public class User {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
