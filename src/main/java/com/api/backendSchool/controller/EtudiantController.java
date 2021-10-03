@@ -1,6 +1,8 @@
 package com.api.backendSchool.controller;
 
 import com.api.backendSchool.model.Type;
+import com.api.backendSchool.specification.GeneriqueSpecificationRequest;
+import com.api.backendSchool.specification.PageNumber;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,6 +28,8 @@ import com.api.backendSchool.model.Etudiant;
 import com.api.backendSchool.model.SearchEtudiant;
 import com.api.backendSchool.service.EtudiantService;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("etudiant")
@@ -41,10 +45,13 @@ public class EtudiantController {
 		return etudiantRepository.getChampSelected();
 	}
 	@PostMapping("/fetch")
-	public ResponseEntity<?> getAgeAndPrenom(@RequestBody List<SearchCriteria> searchCriteria){
+	public ResponseEntity<?> getAgeAndPrenom(@Valid  @RequestBody GeneriqueSpecificationRequest search){
+		//List<SearchCriteria> searchCriteria = search.get("items");
+		//PageNumber pageNumber = null;
+		//pageNumber =search.get("pageable");
 		EtudiantSpecificationsBuilder<Etudiant> builder = new EtudiantSpecificationsBuilder();
 		Object tmp=null;
-		for(SearchCriteria sc:searchCriteria){
+		for(SearchCriteria sc:search.getItems()){
 			if(sc.getKey().equals("type")){
 				if (sc.getValue().equals("ACTIF")) {
 					tmp = Type.ACTIF;
@@ -58,7 +65,7 @@ public class EtudiantController {
 			builder.with(sc.getKey(),sc.getOperation(),tmp);
 		}
 		Specification<Etudiant> spec = builder.build();
-		Pageable paging = PageRequest.of(0,2);
+		Pageable paging = PageRequest.of(search.getPageable().getPage(),search.getPageable().getSize());
 		Page<Etudiant> pageTuts = etudiantRepository.findAll(spec,paging);
 		List<Etudiant> etu;
 		etu = pageTuts.getContent();
